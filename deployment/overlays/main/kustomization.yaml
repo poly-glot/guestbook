@@ -2,24 +2,24 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
-  - pv.yaml
-  - pvc.yaml
+- ../../base
+- pv.yaml
+- pvc.yaml
 
 namespace: guestbook-main
 
 patches:
-  - path: deployment.yaml
-  - path: ingress.yaml
-  - path: mongodb.yaml
+- path: deployment.yaml
+- path: ingress.yaml
+- path: mongodb.yaml
 
 configMapGenerator:
-  - behavior: replace
-    envs:
-      - config.properties
-    name: database-map
+- behavior: replace
+  envs:
+  - config.properties
+  name: database-map
 
 images:
-  - name: webapp:latest
-    newName: lhr.ocir.io/lrhvckxzwf3l/guestbook
-    newTag: 4ae205fa78a95b9c5a2c17164fad00614a0c6ba6
+- name: webapp:latest
+  newName: lhr.ocir.io/lrhvckxzwf3l/guestbook
+  newTag: 3360e522a64f7a8b74032a034637552af30b748e
