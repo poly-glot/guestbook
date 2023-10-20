@@ -3,14 +3,11 @@ kind: Kustomization
 
 resources:
   - ../../base
-  - pv.yaml
-  - pvc.yaml
 
-namespace: guestbook-local
+namePrefix: local-
 
 patches:
   - path: deployment.yaml
-  - path: ingress.yaml
   - path: mongodb.yaml
 
 configMapGenerator:

@@ -7,5 +7,12 @@ metadata:
 spec:
   template:
     spec:
-      nodeSelector: null
-
+      volumes:
+        - name: task-pv-storage
+          persistentVolumeClaim:
+            claimName: task-pv-claim
+      containers:
+        - name: mongo
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: task-pv-storage

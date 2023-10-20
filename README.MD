@@ -67,12 +67,12 @@ docker build -t guestbookapp .
 minikube image load guestbookapp
 
 # Setup
-kubectl create namespace guestbook
-kubectl create secret generic database-secret --from-literal=DB_PASS=$(echo -n 'mypassword' | base64) --namespace guestbook
+kubectl create namespace guestbook-local
+kubectl create secret generic database-secret --from-literal=DB_PASS=$(echo -n 'mypassword' | base64) --namespace guestbook-local
 kubectl apply -k ./deployment/overlays/local
 
 # Access Locally
-kubectl port-forward service/local-webapp-v1 8080:8080 -n guestbook
+kubectl port-forward service/webapp-v1 8080:8080 -n guestbook-local
 
 
 # Delete
@@ -80,11 +80,13 @@ kubectl delete -k ./deployment/overlays/local
 ```
 
 ### Troubleshoot
-```shell
-kubectl describe $(kubectl get pods --selector "app=mongo" --output=name --namespace guestbook) --namespace guestbook
-kubectl logs $(kubectl get pods --selector "app=webapp" --output=name --namespace guestbook) --namespace guestbook
-kubectl exec --stdin --tty $(kubectl get pods --selector "app=webapp" --output=name --namespace guestbook) --namespace guestbook -- /bin/bash
-kubectl exec --stdin --tty $(kubectl get pods --selector "app=mongo" --output=name --namespace guestbook) --namespace guestbook -- /bin/bash
+You have the flexibility to switch the namespace to either "guestbook-develop" or "guestbook-main" to operate within the staging or production environment, respectively.
 
-kubectl cp ./app/src/config.js guestbook/local-webapp-v1-77bb65f98c-jglzg:/app/src/config.js
+```shell
+kubectl describe $(kubectl get pods --selector "app=mongo" --output=name --namespace guestbook-local) --namespace guestbook-local
+kubectl logs $(kubectl get pods --selector "app=webapp" --output=name --namespace guestbook-local) --namespace guestbook-local
+kubectl exec --stdin --tty $(kubectl get pods --selector "app=webapp" --output=name --namespace guestbook-local) --namespace guestbook-local -- /bin/bash
+kubectl exec --stdin --tty $(kubectl get pods --selector "app=mongo" --output=name --namespace guestbook-local) --namespace guestbook-local -- /bin/bash
+
+kubectl cp ./app/src/config.js guestbook-local/$(kubectl get pods --selector "app=webapp" --output=name --namespace guestbook-local | head -n 1 | awk -F/ '{print $2}'):/app/src/config.js
 ```
