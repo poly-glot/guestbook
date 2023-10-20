@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec: # Pod spec
+      containers:
+        - name: webappcontainer
+          image: "webapp:latest"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: DB_PASS
+          envFrom:
+            - configMapRef:
+                name: database-map
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+
