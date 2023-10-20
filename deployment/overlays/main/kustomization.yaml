@@ -2,21 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
+- ../../base
 
 namePrefix: main-
 
 patches:
-  - path: deployment.yaml
-  - path: ingress.yaml
+- path: deployment.yaml
+- path: ingress.yaml
 
 configMapGenerator:
-  - behavior: replace
-    envs:
-      - config.properties
-    name: database-map
+- behavior: replace
+  envs:
+  - config.properties
+  name: database-map
 
 images:
-  - name: webapp:latest
-    newName: lhr.ocir.io/lrhvckxzwf3l/guestbook
-    newTag: 13e7df538cb4eaa4dd67b6d3371393d41fdaca80
+- name: webapp:latest
+  newName: lhr.ocir.io/lrhvckxzwf3l/guestbook
+  newTag: 4ae205fa78a95b9c5a2c17164fad00614a0c6ba6
