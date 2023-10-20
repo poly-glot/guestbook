@@ -1,9 +1,9 @@
 resources:
   - namespace.yaml
   - deployment.yaml
-  - service.yaml
   - ingress.yaml
   - mongodb.yaml
+  - service.yaml
 
 namespace: guestbook
 

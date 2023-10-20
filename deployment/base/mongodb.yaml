@@ -13,12 +13,6 @@ spec:
       labels:
         app: mongo
     spec:
-      nodeSelector:
-        "kubernetes.io/hostname": node1
-      volumes:
-        - name: task-pv-storage
-          persistentVolumeClaim:
-            claimName: task-pv-claim
       containers:
         - name: mongo
           image: mongo:7
@@ -40,9 +34,6 @@ spec:
                   key: DB_NAME
           ports:
             - containerPort: 27017
-          volumeMounts:
-            - mountPath: "/data/db"
-              name: task-pv-storage
 
 ---
 apiVersion: v1
@@ -59,30 +50,3 @@ spec:
     - port: 27017
       targetPort: 27017
       protocol: TCP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: task-pv-claim
-spec:
-  storageClassName: manual-mongo
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 3Gi
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: task-pv-mongo-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual-mongo
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data/mongodb/guestbook"

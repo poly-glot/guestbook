@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongo
+spec:
+  template:
+    spec:
+      nodeSelector:
+        "kubernetes.io/hostname": node1
+      volumes:
+        - name: task-pv-storage
+          persistentVolumeClaim:
+            claimName: task-pv-claim
+      containers:
+        - name: mongo
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: task-pv-storage
