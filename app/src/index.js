@@ -29,7 +29,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to Guestbook application" });
+    res.json({ message: "Welcome to Guestbook application - develop" });
 });
 
 require("./routes/post.routes")(app);
