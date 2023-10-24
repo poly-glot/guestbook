@@ -22,4 +22,4 @@ configMapGenerator:
 images:
 - name: webapp:latest
   newName: lhr.ocir.io/lrhvckxzwf3l/guestbook
-  newTag: 79aa1129f76e94fcb3c94992087f99d7eea3bc02
+  newTag: 3d8a2a936bbc5439ef1ed3417a525acaaa6bb420
